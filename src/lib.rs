@@ -40,6 +40,10 @@ mod tests {
     fn custom_block_on_10_yields_stjepang(b: &mut Bencher) {
         b.iter(|| executor::stjepang::block_on(Yields(10)));
     }
+    #[bench]
+    fn custom_block_on_0_yields_stjepang(b: &mut Bencher) {
+        b.iter(|| executor::stjepang::block_on(Yields(0)));
+    }
     //EXTREME
     #[bench]
     fn custom_block_on_1000_yields_extreme(b: &mut Bencher) {
@@ -53,6 +57,10 @@ mod tests {
     fn custom_block_on_10_yields_extreme(b: &mut Bencher) {
         b.iter(|| executor::extreme::run(Yields(10)));
     }
+    #[bench]
+    fn custom_block_on_0_yields_extreme(b: &mut Bencher) {
+        b.iter(|| executor::extreme::run(Yields(0)));
+    }
     //FUTURES
     #[bench]
     fn custom_block_on_1000_yields_futures(b: &mut Bencher) {
@@ -65,6 +73,10 @@ mod tests {
     #[bench]
     fn custom_block_on_10_yields_futures(b: &mut Bencher) {
         b.iter(|| futures::executor::block_on(Yields(10)));
+    }
+    #[bench]
+    fn custom_block_on_0_yields_futures(b: &mut Bencher) {
+        b.iter(|| futures::executor::block_on(Yields(0)));
     }
     // TOKIO
     #[bench]
@@ -82,6 +94,11 @@ mod tests {
         let mut rt = tokio::runtime::Runtime::new().unwrap();
         b.iter(|| rt.block_on(Yields(10)));
     }
+    #[bench]
+    fn custom_block_on_0_yields_tokio(b: &mut Bencher) {
+        let mut rt = tokio::runtime::Runtime::new().unwrap();
+        b.iter(|| rt.block_on(Yields(0)));
+    }
     // ASYNC-STD
     #[bench]
     fn custom_block_on_1000_yields_async_std(b: &mut Bencher) {
@@ -94,6 +111,10 @@ mod tests {
     #[bench]
     fn custom_block_on_10_yields_async_std(b: &mut Bencher) {
         b.iter(|| async_std::task::block_on(Yields(10)));
+    }
+    #[bench]
+    fn custom_block_on_0_yields_async_std(b: &mut Bencher) {
+        b.iter(|| async_std::task::block_on(Yields(0)));
     }
     // BASTION EXECUTOR
     #[bench]
@@ -110,5 +131,10 @@ mod tests {
     fn custom_block_on_10_yields_bastion(b: &mut Bencher) {
         let stack = ProcStack::default();
         b.iter(|| bastion_executor::run::run(Yields(10), stack.clone()));
+    }
+    #[bench]
+    fn custom_block_on_0_yields_bastion(b: &mut Bencher) {
+        let stack = ProcStack::default();
+        b.iter(|| bastion_executor::run::run(Yields(0), stack.clone()));
     }
 }
