@@ -25,7 +25,7 @@ mod tests {
             }
         }
     }
-
+    //STJEPANG
     #[bench]
     fn custom_block_on_1000_yields_stjepang(b: &mut Bencher) {
         b.iter(|| executor::stjepang::block_on(Yields(1000)));
@@ -38,6 +38,7 @@ mod tests {
     fn custom_block_on_10_yields_stjepang(b: &mut Bencher) {
         b.iter(|| executor::stjepang::block_on(Yields(10)));
     }
+    //EXTREME
     #[bench]
     fn custom_block_on_1000_yields_extreme(b: &mut Bencher) {
         b.iter(|| executor::extreme::run(Yields(1000)));
@@ -49,5 +50,47 @@ mod tests {
     #[bench]
     fn custom_block_on_10_yields_extreme(b: &mut Bencher) {
         b.iter(|| executor::extreme::run(Yields(10)));
+    }
+    //FUTURES
+    #[bench]
+    fn custom_block_on_1000_yields_futures(b: &mut Bencher) {
+        b.iter(|| futures::executor::block_on(Yields(1000)));
+    }
+    #[bench]
+    fn custom_block_on_100_yields_futures(b: &mut Bencher) {
+        b.iter(|| futures::executor::block_on(Yields(100)));
+    }
+    #[bench]
+    fn custom_block_on_10_yields_futures(b: &mut Bencher) {
+        b.iter(|| futures::executor::block_on(Yields(10)));
+    }
+    // TOKIO
+    #[bench]
+    fn custom_block_on_1000_yields_tokio(b: &mut Bencher) {
+        let mut rt = tokio::runtime::Runtime::new().unwrap();
+        b.iter(|| rt.block_on(Yields(1000)));
+    }
+    #[bench]
+    fn custom_block_on_100_yields_tokio(b: &mut Bencher) {
+        let mut rt = tokio::runtime::Runtime::new().unwrap();
+        b.iter(|| rt.block_on(Yields(100)));
+    }
+    #[bench]
+    fn custom_block_on_10_yields_tokio(b: &mut Bencher) {
+        let mut rt = tokio::runtime::Runtime::new().unwrap();
+        b.iter(|| rt.block_on(Yields(10)));
+    }
+    // ASYNC-STD
+    #[bench]
+    fn custom_block_on_1000_yields_async_std(b: &mut Bencher) {
+        b.iter(|| async_std::task::block_on(Yields(1000)));
+    }
+    #[bench]
+    fn custom_block_on_100_yields_async_std(b: &mut Bencher) {
+        b.iter(|| async_std::task::block_on(Yields(100)));
+    }
+    #[bench]
+    fn custom_block_on_10_yields_async_std(b: &mut Bencher) {
+        b.iter(|| async_std::task::block_on(Yields(10)));
     }
 }
