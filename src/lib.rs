@@ -10,6 +10,8 @@ mod tests {
     use futures::Future;
     use futures::task::{Context, Poll};
     use std::pin::Pin;
+    //use bastion_executor::prelude::*;
+    use lightproc::proc_stack::ProcStack;
 
     struct Yields(u32);
     impl Future for Yields {
@@ -92,5 +94,21 @@ mod tests {
     #[bench]
     fn custom_block_on_10_yields_async_std(b: &mut Bencher) {
         b.iter(|| async_std::task::block_on(Yields(10)));
+    }
+    // BASTION EXECUTOR
+    #[bench]
+    fn custom_block_on_1000_yields_bastion(b: &mut Bencher) {
+        let stack = ProcStack::default();
+        b.iter(|| bastion_executor::run::run(Yields(1000), stack.clone()));
+    }
+    #[bench]
+    fn custom_block_on_100_yields_bastion(b: &mut Bencher) {
+        let stack = ProcStack::default();
+        b.iter(|| bastion_executor::run::run(Yields(100), stack.clone()));
+    }
+    #[bench]
+    fn custom_block_on_10_yields_bastion(b: &mut Bencher) {
+        let stack = ProcStack::default();
+        b.iter(|| bastion_executor::run::run(Yields(10), stack.clone()));
     }
 }
