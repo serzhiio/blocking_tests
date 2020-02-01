@@ -1,6 +1,6 @@
 # blocking_tests
 
-Benchmarking of different block_on() implementations by stjepang and by extreme.
+Benchmarking of different block_on() implementations.
 Inspired after https://stjepang.github.io/2020/01/25/build-your-own-block-on.html article.
 
 ```
